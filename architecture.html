@@ -1,0 +1,163 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 750px;
+                 background-color: #222222;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"borderWidth": 2, "color": "#4CAF50", "font": {"color": "white"}, "id": "Component_14", "label": "Component_14", "shape": "dot", "size": 17, "title": "Architecture Module 14"}, {"borderWidth": 2, "color": "#4CAF50", "font": {"color": "white"}, "id": "Component_3", "label": "Component_3", "shape": "dot", "size": 24, "title": "Architecture Module 3"}, {"borderWidth": 2, "color": "#4CAF50", "font": {"color": "white"}, "id": "Component_7", "label": "Component_7", "shape": "dot", "size": 24, "title": "Architecture Module 7"}, {"borderWidth": 2, "color": "#4CAF50", "font": {"color": "white"}, "id": "Component_10", "label": "Component_10", "shape": "dot", "size": 31, "title": "Architecture Module 10"}, {"borderWidth": 2, "color": "#4CAF50", "font": {"color": "white"}, "id": "Component_6", "label": "Component_6", "shape": "dot", "size": 46, "title": "Architecture Module 6"}, {"borderWidth": 2, "color": "#4CAF50", "font": {"color": "white"}, "id": "Component_12", "label": "Component_12", "shape": "dot", "size": 30, "title": "Architecture Module 12"}, {"borderWidth": 2, "color": "#4CAF50", "font": {"color": "white"}, "id": "Component_5", "label": "Component_5", "shape": "dot", "size": 40, "title": "Architecture Module 5"}, {"borderWidth": 2, "color": "#4CAF50", "font": {"color": "white"}, "id": "Component_0", "label": "Component_0", "shape": "dot", "size": 33, "title": "Architecture Module 0"}, {"borderWidth": 2, "color": "#4CAF50", "font": {"color": "white"}, "id": "Component_1", "label": "Component_1", "shape": "dot", "size": 31, "title": "Architecture Module 1"}, {"borderWidth": 2, "color": "#4CAF50", "font": {"color": "white"}, "id": "Component_13", "label": "Component_13", "shape": "dot", "size": 21, "title": "Architecture Module 13"}, {"borderWidth": 2, "color": "#4CAF50", "font": {"color": "white"}, "id": "Component_8", "label": "Component_8", "shape": "dot", "size": 20, "title": "Architecture Module 8"}, {"borderWidth": 2, "color": "#4CAF50", "font": {"color": "white"}, "id": "Component_2", "label": "Component_2", "shape": "dot", "size": 46, "title": "Architecture Module 2"}, {"borderWidth": 2, "color": "#4CAF50", "font": {"color": "white"}, "id": "Component_9", "label": "Component_9", "shape": "dot", "size": 50, "title": "Architecture Module 9"}, {"borderWidth": 2, "color": "#4CAF50", "font": {"color": "white"}, "id": "Component_11", "label": "Component_11", "shape": "dot", "size": 41, "title": "Architecture Module 11"}, {"borderWidth": 2, "color": "#4CAF50", "font": {"color": "white"}, "id": "Component_4", "label": "Component_4", "shape": "dot", "size": 27, "title": "Architecture Module 4"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "color": "#888888", "from": "Component_14", "title": "Dependencies: 396", "to": "Component_3", "value": 396, "width": 1}, {"arrows": "to", "color": "#ffbd45", "from": "Component_14", "title": "Dependencies: 1106", "to": "Component_7", "value": 1106, "width": 2}, {"arrows": "to", "color": "#ffbd45", "from": "Component_14", "title": "Dependencies: 1298", "to": "Component_10", "value": 1298, "width": 2}, {"arrows": "to", "color": "#ffbd45", "from": "Component_14", "title": "Dependencies: 2144", "to": "Component_6", "value": 2144, "width": 4}, {"arrows": "to", "color": "#ffbd45", "from": "Component_14", "title": "Dependencies: 1353", "to": "Component_12", "value": 1353, "width": 2}, {"arrows": "to", "color": "#ffbd45", "from": "Component_14", "title": "Dependencies: 830", "to": "Component_5", "value": 830, "width": 1}, {"arrows": "to", "color": "#ffbd45", "from": "Component_14", "title": "Dependencies: 1362", "to": "Component_0", "value": 1362, "width": 2}, {"arrows": "to", "color": "#ffbd45", "from": "Component_14", "title": "Dependencies: 1892", "to": "Component_1", "value": 1892, "width": 3}, {"arrows": "to", "color": "#888888", "from": "Component_14", "title": "Dependencies: 352", "to": "Component_13", "value": 352, "width": 1}, {"arrows": "to", "color": "#ffbd45", "from": "Component_14", "title": "Dependencies: 955", "to": "Component_8", "value": 955, "width": 1}, {"arrows": "to", "color": "#ffbd45", "from": "Component_14", "title": "Dependencies: 563", "to": "Component_2", "value": 563, "width": 1}, {"arrows": "to", "color": "#ffbd45", "from": "Component_14", "title": "Dependencies: 2467", "to": "Component_9", "value": 2467, "width": 4}, {"arrows": "to", "color": "#ffbd45", "from": "Component_14", "title": "Dependencies: 876", "to": "Component_11", "value": 876, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_14", "title": "Dependencies: 98", "to": "Component_4", "value": 98, "width": 1}, {"arrows": "to", "color": "#ffbd45", "from": "Component_8", "title": "Dependencies: 1663", "to": "Component_5", "value": 1663, "width": 3}, {"arrows": "to", "color": "#ffbd45", "from": "Component_8", "title": "Dependencies: 1127", "to": "Component_2", "value": 1127, "width": 2}, {"arrows": "to", "color": "#888888", "from": "Component_8", "title": "Dependencies: 268", "to": "Component_14", "value": 268, "width": 1}, {"arrows": "to", "color": "#ffbd45", "from": "Component_8", "title": "Dependencies: 2408", "to": "Component_12", "value": 2408, "width": 4}, {"arrows": "to", "color": "#ffbd45", "from": "Component_8", "title": "Dependencies: 1252", "to": "Component_1", "value": 1252, "width": 2}, {"arrows": "to", "color": "#888888", "from": "Component_8", "title": "Dependencies: 384", "to": "Component_0", "value": 384, "width": 1}, {"arrows": "to", "color": "#ffbd45", "from": "Component_8", "title": "Dependencies: 1478", "to": "Component_4", "value": 1478, "width": 2}, {"arrows": "to", "color": "#ffbd45", "from": "Component_8", "title": "Dependencies: 565", "to": "Component_13", "value": 565, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_8", "title": "Dependencies: 180", "to": "Component_3", "value": 180, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_8", "title": "Dependencies: 210", "to": "Component_9", "value": 210, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_8", "title": "Dependencies: 193", "to": "Component_10", "value": 193, "width": 1}, {"arrows": "to", "color": "#ffbd45", "from": "Component_8", "title": "Dependencies: 957", "to": "Component_11", "value": 957, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_8", "title": "Dependencies: 59", "to": "Component_6", "value": 59, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_8", "title": "Dependencies: 17", "to": "Component_7", "value": 17, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_13", "title": "Dependencies: 78", "to": "Component_0", "value": 78, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_13", "title": "Dependencies: 291", "to": "Component_5", "value": 291, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_13", "title": "Dependencies: 75", "to": "Component_1", "value": 75, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_13", "title": "Dependencies: 28", "to": "Component_4", "value": 28, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_13", "title": "Dependencies: 75", "to": "Component_3", "value": 75, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_13", "title": "Dependencies: 407", "to": "Component_8", "value": 407, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_13", "title": "Dependencies: 140", "to": "Component_14", "value": 140, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_13", "title": "Dependencies: 305", "to": "Component_12", "value": 305, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_13", "title": "Dependencies: 5", "to": "Component_2", "value": 5, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_13", "title": "Dependencies: 3", "to": "Component_11", "value": 3, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_13", "title": "Dependencies: 14", "to": "Component_10", "value": 14, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_13", "title": "Dependencies: 2", "to": "Component_6", "value": 2, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_13", "title": "Dependencies: 3", "to": "Component_7", "value": 3, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_3", "title": "Dependencies: 203", "to": "Component_12", "value": 203, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_3", "title": "Dependencies: 154", "to": "Component_1", "value": 154, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_3", "title": "Dependencies: 252", "to": "Component_9", "value": 252, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_3", "title": "Dependencies: 90", "to": "Component_8", "value": 90, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_3", "title": "Dependencies: 80", "to": "Component_4", "value": 80, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_3", "title": "Dependencies: 74", "to": "Component_2", "value": 74, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_3", "title": "Dependencies: 69", "to": "Component_14", "value": 69, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_3", "title": "Dependencies: 51", "to": "Component_13", "value": 51, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_3", "title": "Dependencies: 43", "to": "Component_11", "value": 43, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_3", "title": "Dependencies: 144", "to": "Component_5", "value": 144, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_3", "title": "Dependencies: 20", "to": "Component_0", "value": 20, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_3", "title": "Dependencies: 40", "to": "Component_6", "value": 40, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_3", "title": "Dependencies: 32", "to": "Component_10", "value": 32, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_3", "title": "Dependencies: 20", "to": "Component_7", "value": 20, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_5", "title": "Dependencies: 114", "to": "Component_11", "value": 114, "width": 1}, {"arrows": "to", "color": "#ffbd45", "from": "Component_5", "title": "Dependencies: 783", "to": "Component_2", "value": 783, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_5", "title": "Dependencies: 109", "to": "Component_14", "value": 109, "width": 1}, {"arrows": "to", "color": "#ffbd45", "from": "Component_5", "title": "Dependencies: 719", "to": "Component_12", "value": 719, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_5", "title": "Dependencies: 132", "to": "Component_0", "value": 132, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_5", "title": "Dependencies: 81", "to": "Component_3", "value": 81, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_5", "title": "Dependencies: 110", "to": "Component_4", "value": 110, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_5", "title": "Dependencies: 265", "to": "Component_8", "value": 265, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_5", "title": "Dependencies: 242", "to": "Component_1", "value": 242, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_5", "title": "Dependencies: 19", "to": "Component_9", "value": 19, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_5", "title": "Dependencies: 62", "to": "Component_10", "value": 62, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_5", "title": "Dependencies: 143", "to": "Component_13", "value": 143, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_5", "title": "Dependencies: 26", "to": "Component_6", "value": 26, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_5", "title": "Dependencies: 12", "to": "Component_7", "value": 12, "width": 1}, {"arrows": "to", "color": "#ffbd45", "from": "Component_2", "title": "Dependencies: 1367", "to": "Component_5", "value": 1367, "width": 2}, {"arrows": "to", "color": "#ff4d4d", "from": "Component_2", "title": "Dependencies: 5346", "to": "Component_12", "value": 5346, "width": 10}, {"arrows": "to", "color": "#888888", "from": "Component_2", "title": "Dependencies: 134", "to": "Component_8", "value": 134, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_2", "title": "Dependencies: 5", "to": "Component_1", "value": 5, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_2", "title": "Dependencies: 4", "to": "Component_4", "value": 4, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_2", "title": "Dependencies: 36", "to": "Component_3", "value": 36, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_2", "title": "Dependencies: 63", "to": "Component_0", "value": 63, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_2", "title": "Dependencies: 101", "to": "Component_14", "value": 101, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_2", "title": "Dependencies: 10", "to": "Component_9", "value": 10, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_2", "title": "Dependencies: 20", "to": "Component_7", "value": 20, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_2", "title": "Dependencies: 7", "to": "Component_13", "value": 7, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_2", "title": "Dependencies: 13", "to": "Component_10", "value": 13, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_12", "title": "Dependencies: 36", "to": "Component_10", "value": 36, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_12", "title": "Dependencies: 7", "to": "Component_6", "value": 7, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_12", "title": "Dependencies: 24", "to": "Component_13", "value": 24, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_12", "title": "Dependencies: 90", "to": "Component_8", "value": 90, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_12", "title": "Dependencies: 23", "to": "Component_1", "value": 23, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_12", "title": "Dependencies: 130", "to": "Component_2", "value": 130, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_12", "title": "Dependencies: 23", "to": "Component_3", "value": 23, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_12", "title": "Dependencies: 16", "to": "Component_7", "value": 16, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_12", "title": "Dependencies: 112", "to": "Component_0", "value": 112, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_12", "title": "Dependencies: 16", "to": "Component_11", "value": 16, "width": 1}, {"arrows": "to", "color": "#ffbd45", "from": "Component_12", "title": "Dependencies: 555", "to": "Component_5", "value": 555, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_12", "title": "Dependencies: 145", "to": "Component_14", "value": 145, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_12", "title": "Dependencies: 3", "to": "Component_4", "value": 3, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_12", "title": "Dependencies: 1", "to": "Component_9", "value": 1, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_7", "title": "Dependencies: 366", "to": "Component_14", "value": 366, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_7", "title": "Dependencies: 152", "to": "Component_5", "value": 152, "width": 1}, {"arrows": "to", "color": "#ffbd45", "from": "Component_7", "title": "Dependencies: 640", "to": "Component_12", "value": 640, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_7", "title": "Dependencies: 18", "to": "Component_0", "value": 18, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_7", "title": "Dependencies: 253", "to": "Component_3", "value": 253, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_7", "title": "Dependencies: 39", "to": "Component_8", "value": 39, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_7", "title": "Dependencies: 23", "to": "Component_10", "value": 23, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_7", "title": "Dependencies: 5", "to": "Component_2", "value": 5, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_7", "title": "Dependencies: 5", "to": "Component_6", "value": 5, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_7", "title": "Dependencies: 2", "to": "Component_13", "value": 2, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_7", "title": "Dependencies: 6", "to": "Component_1", "value": 6, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_7", "title": "Dependencies: 12", "to": "Component_9", "value": 12, "width": 1}, {"arrows": "to", "color": "#ffbd45", "from": "Component_10", "title": "Dependencies: 1832", "to": "Component_12", "value": 1832, "width": 3}, {"arrows": "to", "color": "#888888", "from": "Component_10", "title": "Dependencies: 57", "to": "Component_3", "value": 57, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_10", "title": "Dependencies: 62", "to": "Component_8", "value": 62, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_10", "title": "Dependencies: 356", "to": "Component_14", "value": 356, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_10", "title": "Dependencies: 35", "to": "Component_9", "value": 35, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_10", "title": "Dependencies: 76", "to": "Component_0", "value": 76, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_10", "title": "Dependencies: 210", "to": "Component_5", "value": 210, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_10", "title": "Dependencies: 13", "to": "Component_6", "value": 13, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_10", "title": "Dependencies: 29", "to": "Component_1", "value": 29, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_10", "title": "Dependencies: 27", "to": "Component_7", "value": 27, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_10", "title": "Dependencies: 16", "to": "Component_13", "value": 16, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_10", "title": "Dependencies: 3", "to": "Component_4", "value": 3, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_10", "title": "Dependencies: 8", "to": "Component_2", "value": 8, "width": 1}, {"arrows": "to", "color": "#ffbd45", "from": "Component_9", "title": "Dependencies: 640", "to": "Component_3", "value": 640, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_9", "title": "Dependencies: 19", "to": "Component_8", "value": 19, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_9", "title": "Dependencies: 59", "to": "Component_14", "value": 59, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_9", "title": "Dependencies: 21", "to": "Component_5", "value": 21, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_9", "title": "Dependencies: 15", "to": "Component_7", "value": 15, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_9", "title": "Dependencies: 10", "to": "Component_10", "value": 10, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_9", "title": "Dependencies: 49", "to": "Component_12", "value": 49, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_9", "title": "Dependencies: 4", "to": "Component_2", "value": 4, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_9", "title": "Dependencies: 9", "to": "Component_0", "value": 9, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_1", "title": "Dependencies: 197", "to": "Component_14", "value": 197, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_1", "title": "Dependencies: 255", "to": "Component_5", "value": 255, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_1", "title": "Dependencies: 496", "to": "Component_3", "value": 496, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_1", "title": "Dependencies: 42", "to": "Component_8", "value": 42, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_1", "title": "Dependencies: 18", "to": "Component_10", "value": 18, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_1", "title": "Dependencies: 70", "to": "Component_13", "value": 70, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_1", "title": "Dependencies: 24", "to": "Component_0", "value": 24, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_1", "title": "Dependencies: 5", "to": "Component_6", "value": 5, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_1", "title": "Dependencies: 16", "to": "Component_4", "value": 16, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_1", "title": "Dependencies: 46", "to": "Component_12", "value": 46, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_1", "title": "Dependencies: 1", "to": "Component_7", "value": 1, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_1", "title": "Dependencies: 1", "to": "Component_11", "value": 1, "width": 1}, {"arrows": "to", "color": "#ffbd45", "from": "Component_0", "title": "Dependencies: 2408", "to": "Component_12", "value": 2408, "width": 4}, {"arrows": "to", "color": "#888888", "from": "Component_0", "title": "Dependencies: 341", "to": "Component_5", "value": 341, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_0", "title": "Dependencies: 32", "to": "Component_3", "value": 32, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_0", "title": "Dependencies: 336", "to": "Component_14", "value": 336, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_0", "title": "Dependencies: 42", "to": "Component_10", "value": 42, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_0", "title": "Dependencies: 31", "to": "Component_13", "value": 31, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_0", "title": "Dependencies: 83", "to": "Component_8", "value": 83, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_0", "title": "Dependencies: 12", "to": "Component_7", "value": 12, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_0", "title": "Dependencies: 26", "to": "Component_2", "value": 26, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_0", "title": "Dependencies: 18", "to": "Component_1", "value": 18, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_0", "title": "Dependencies: 3", "to": "Component_4", "value": 3, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_0", "title": "Dependencies: 1", "to": "Component_6", "value": 1, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_0", "title": "Dependencies: 5", "to": "Component_9", "value": 5, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_6", "title": "Dependencies: 13", "to": "Component_8", "value": 13, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_6", "title": "Dependencies: 32", "to": "Component_14", "value": 32, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_6", "title": "Dependencies: 453", "to": "Component_3", "value": 453, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_6", "title": "Dependencies: 38", "to": "Component_5", "value": 38, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_6", "title": "Dependencies: 2", "to": "Component_12", "value": 2, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_6", "title": "Dependencies: 7", "to": "Component_0", "value": 7, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_6", "title": "Dependencies: 33", "to": "Component_10", "value": 33, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_6", "title": "Dependencies: 10", "to": "Component_1", "value": 10, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_6", "title": "Dependencies: 2", "to": "Component_13", "value": 2, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_6", "title": "Dependencies: 1", "to": "Component_7", "value": 1, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_4", "title": "Dependencies: 101", "to": "Component_3", "value": 101, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_4", "title": "Dependencies: 35", "to": "Component_12", "value": 35, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_4", "title": "Dependencies: 63", "to": "Component_13", "value": 63, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_4", "title": "Dependencies: 63", "to": "Component_14", "value": 63, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_4", "title": "Dependencies: 69", "to": "Component_5", "value": 69, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_4", "title": "Dependencies: 1", "to": "Component_11", "value": 1, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_4", "title": "Dependencies: 9", "to": "Component_1", "value": 9, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_4", "title": "Dependencies: 31", "to": "Component_8", "value": 31, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_4", "title": "Dependencies: 4", "to": "Component_10", "value": 4, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_4", "title": "Dependencies: 1", "to": "Component_6", "value": 1, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_11", "title": "Dependencies: 109", "to": "Component_3", "value": 109, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_11", "title": "Dependencies: 14", "to": "Component_13", "value": 14, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_11", "title": "Dependencies: 4", "to": "Component_4", "value": 4, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_11", "title": "Dependencies: 37", "to": "Component_14", "value": 37, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_11", "title": "Dependencies: 4", "to": "Component_1", "value": 4, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_11", "title": "Dependencies: 10", "to": "Component_5", "value": 10, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_11", "title": "Dependencies: 1", "to": "Component_0", "value": 1, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_11", "title": "Dependencies: 7", "to": "Component_12", "value": 7, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_11", "title": "Dependencies: 4", "to": "Component_10", "value": 4, "width": 1}, {"arrows": "to", "color": "#888888", "from": "Component_11", "title": "Dependencies: 1", "to": "Component_8", "value": 1, "width": 1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "barnesHut": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.3,
+            "damping": 0.09,
+            "gravitationalConstant": -8000,
+            "springConstant": 0.05,
+            "springLength": 200
+        },
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
